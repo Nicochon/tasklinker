@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}updateUser{% endblock %}
+
+{% block body %}
+    <section id="add">
+        <main>
+            <header>
+                <div id="current-user"></div>
+                <div id="title-page">
+                    <h1>Natalie Dillon</h1>
+                </div>
+            </header>
+            <div id="content">
+                <form name="{{ form.vars.name }}" method="post">
+                    <div>
+                        {{ form_label(form.lastName, 'Nom', {'attr': {'class': 'required'}}) }}
+                        {{ form_widget(form.lastName, {'attr': {'maxlength': '255'}}) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.firstName, 'Prenom', {'attr': {'class': 'required'}}) }}
+                        {{ form_widget(form.firstName, {'attr': {'maxlength': '255'}}) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.mail, 'Email', {'attr': {'class': 'required'}}) }}
+                        {{ form_widget(form.mail) }}
+                    </div>
+                    <div class="form-flex">
+                        <div>
+                            {{ form_label(form.startDateContract, 'Date d\'entrée', {'attr': {'class': 'required'}}) }}
+                            {{ form_widget(form.startDateContract, {'attr': {'type': 'date'}}) }}
+                        </div>
+                        <div>
+                            {{ form_label(form.contract, 'Statut', {'attr': {'class': 'required'}}) }}
+                            {{ form_widget(form.contract, {'attr': {'maxlength': '255'}}) }}
+                        </div>
+                    </div>
+                    {{ form_widget(form.save) }}
+                </form>
+            </div>
+        </main>
+    </section>
+{% endblock %}
