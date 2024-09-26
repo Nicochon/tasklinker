@@ -9,22 +9,23 @@ use App\Entity\TaskOwner;
 use App\Entity\Users;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Création de 10 utilisateurs fictifs
-        $users = [];
-        for ($i = 1; $i <= 10; $i++) {
-            $user = new Users();
-            $user->setFirstName('FirstName ' . $i);
-            $user->setLastName('LastName ' . $i);
-            $user->setMail('user' . $i . '@example.com');
-            $user->setContract('Contract ' . $i);
-            $user->setStartDateContract(new \DateTime('now'));
+        $faker = Factory::create('fr_FR');
 
-            // Persister l'utilisateur
+        $users = [];
+        for ($i = 0; $i < 10; $i++) {
+            $user = new Users();
+            $user->setFirstName($faker->firstName);
+            $user->setLastName($faker->lastName);
+            $user->setMail($faker->email);
+            $user->setContract($faker->jobTitle);
+            $user->setStartDateContract($faker->dateTimeBetween('-2 years', 'now'));
+
             $manager->persist($user);
             $users[] = $user;
         }
@@ -32,36 +33,29 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         $projects = [];
-        for ($j = 1; $j <= 2; $j++) {
+        for ($i = 0; $i < 5; $i++) {
             $project = new Project();
-            $project->setName('Projet Test ' . $j);
+            $project->setName($faker->sentence(3));
+
             $manager->persist($project);
             $projects[] = $project;
         }
 
         $manager->flush();
 
-        if (count($users) > 0 && count($projects) > 0) {
-            $projectUser = new ProjectUser();
-            $projectUser->setIdUser($users[3]->getId());
-            $projectUser->setIdProject($projects[0]->getId());
-            $manager->persist($projectUser);
-        }
-
-        $manager->flush();
-
         $tasks = [];
-        for ($k = 1; $k <= 5; $k++) {
-            $taskObject = new Task();
-            $taskObject->setName('Tâche ' . $k);
-            $taskObject->setStartDate(new \DateTime('now'));
-            $taskObject->setEndDate(new \DateTime('+1 week'));
-            $taskObject->setDescription('Description de la tâche ' . $k);
-            $taskObject->setStatus('To Do'); // Statut de la tâche
+        for ($i = 0; $i < 10; $i++) {
+            $task = new Task();
+            $task->setName($faker->sentence(4));
+            $task->setStartDate($faker->dateTimeBetween('-1 month', 'now'));
+            $task->setEndDate($faker->dateTimeBetween('now', '+1 month'));
+            $task->setDescription($faker->paragraph);
+            $task->setStatus($faker->randomElement(['To Do', 'Doing', 'Done']));
 
-            $manager->persist($taskObject);
-            $tasks[] = $taskObject;
+            $manager->persist($task);
+            $tasks[] = $task;
         }
+
         $manager->flush();
 
         foreach ($tasks as $task) {
@@ -71,12 +65,11 @@ class AppFixtures extends Fixture
                 $taskOwner->setIdProject($projects[array_rand($projects)]->getId());
                 $taskOwner->setIdUser($users[array_rand($users)]->getId());
 
-                // Persister la liaison entre la tâche, le projet, et l'utilisateur
                 $manager->persist($taskOwner);
             }
         }
 
-        // Enregistrer toutes les tâches dans la base de données
+        // Enregistrer tout
         $manager->flush();
     }
 }
