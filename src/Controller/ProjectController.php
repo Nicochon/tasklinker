@@ -147,9 +147,10 @@ class ProjectController extends AbstractController
                 }
             }
 
-            // Ajouter les nouveaux utilisateurs sélectionnés
+            $projectUserIds = array_column($usersProjectId, 'idUser');
+
             foreach ($selectedUsers as $user) {
-                if (!in_array($user->getId(), array_map(fn($u) => $u['idUser'], $usersProjectId))) {
+                if (!in_array($user->getId(), $projectUserIds)) {
                     $projectUser = new ProjectUser();
                     $projectUser->setIdProject($project->getId());
                     $projectUser->setIdUser($user->getId());
@@ -157,6 +158,7 @@ class ProjectController extends AbstractController
                     $entityManager->persist($projectUser);
                 }
             }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'User updated successfully');
