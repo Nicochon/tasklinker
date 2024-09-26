@@ -24,7 +24,7 @@ class TaskOwnerRepository extends ServiceEntityRepository
             ->setParameter('idProject', $idProject)
             ->getQuery();
 
-        return $qb->getResult(); // Retourne un tableau de résultats
+        return $qb->getResult();
     }
 
     public function findUsersByTaskId(int $idTask): array
@@ -38,7 +38,7 @@ class TaskOwnerRepository extends ServiceEntityRepository
 
         $results = $qb->getResult();
 
-        return $results; // Retourne un tableau de résultats
+        return $results;
     }
 
     public function findProjectIdByTaskId(int $idTask): ?int

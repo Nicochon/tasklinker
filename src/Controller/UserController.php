@@ -17,8 +17,6 @@ use App\Form\UpdateUserType;
 
 class UserController extends AbstractController
 {
-    //        Afficher les utilisateurs
-//*****************************************************************************************
     public function __construct(
         private EntityManagerInterface $entityManager,
     )
@@ -26,6 +24,9 @@ class UserController extends AbstractController
 
     }
 
+    /**
+     * Afficher les utilisateurs
+     */
     #[Route('/users', name: 'show_users')]
     public function showUsers(UsersRepository $UsersRepository): Response
     {
@@ -36,11 +37,10 @@ class UserController extends AbstractController
             'users' => $users,
         ]);
     }
-//*****************************************************************************************
 
-
-//        mettre a jour les utilisateur
-//*****************************************************************************************
+    /**
+     * Mettre à jour les utilisateurs
+     */
     #[Route('/users/update/{id}', name: 'update_user', requirements: ['id' => '\d+'])]
     public function updateUsers(int $id, UsersRepository $UsersRepository, Request $request): Response
     {
@@ -68,11 +68,10 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-//*****************************************************************************************
 
-
-//        Supprimer un utilisateur
-//*****************************************************************************************
+    /**
+     * Supprimer un utilisateur
+     */
     #[Route('/users/{id}/delete', name: 'delete_user', requirements: ['id' => '\d+'])]
     public function delete(int $id, UsersRepository $UsersRepository): Response
     {
@@ -86,5 +85,4 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('show_users');
     }
-//*****************************************************************************************
 }

@@ -32,8 +32,10 @@ class ProjectController extends AbstractController
     {
 
     }
-//       Afficher un Project
-//*****************************************************************************************
+
+    /**
+     * Afficher un Project
+     */
     #[Route('/project/{id}', name: 'show_project', requirements: ['id' => '\d+'])]
     public function showProject(int $id, ProjectRepository $projectRepository): Response
     {
@@ -42,7 +44,6 @@ class ProjectController extends AbstractController
         $initials = $this->projectService->getInitialsByProjectId($id);
         $tasks = $this->projectService->getTasksByProjectId($id);
         $taskInitials = $this->projectService->getUsersByTask($tasks);
-        //*********************************************************************************
 
         return $this->render('project/project.html.twig', [
             'controller_name' => 'HomePageController',
@@ -53,10 +54,9 @@ class ProjectController extends AbstractController
         ]);
     }
 
-//*****************************************************************************************
-
-//        Ajouter un Project
-//*****************************************************************************************
+    /**
+     * Ajouter un Project
+     */
     #[Route('/project/add', name: 'add_project')]
     public function addProject(UsersRepository $usersRepository, Request $request, EntityManagerInterface $entityManager)
     {
@@ -97,11 +97,10 @@ class ProjectController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-//*****************************************************************************************
 
-
-//        Mise a jour d'un Project
-//*****************************************************************************************
+    /**
+     * Mise à jour d'un Project
+     */
     #[Route('/project/update/{id}', name: 'update_project', requirements: ['id' => '\d+'])]
     public function updateProject(int $id, UsersRepository $usersRepository, ProjectUserRepository $projectUserRepository, ProjectRepository $projectRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -169,11 +168,10 @@ class ProjectController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-//*****************************************************************************************
 
-
-//        supprimer un Project
-//*****************************************************************************************
+    /**
+     * supprimer un Project
+     */
     #[Route('/project/{id}/delete', name: 'delete_project', requirements: ['id' => '\d+'])]
     public function deleteProject(int $id, ProjectUserRepository $projectUserRepository, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, TaskRepository $taskRepository, TaskOwnerRepository $taskOwnerRepository): Response
     {
@@ -204,6 +202,4 @@ class ProjectController extends AbstractController
 
         return $this->redirectToRoute('app_homepage');
     }
-//*****************************************************************************************
-
 }

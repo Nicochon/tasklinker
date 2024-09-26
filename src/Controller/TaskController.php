@@ -31,8 +31,10 @@ class TaskController extends AbstractController
     {
 
     }
-//        afficher une tache
-//*****************************************************************************************
+
+    /**
+     * Afficher une tache
+     */
     #[Route('/task/{id}', name: 'show_task', requirements: ['id' => '\d+'])]
     public function showTask(int $id, TaskRepository $taskRepository, TaskOwnerRepository $taskOwnerRepository, UsersRepository $usersRepository, Request $request, EntityManagerInterface $entityManager ): Response
     {
@@ -102,11 +104,10 @@ class TaskController extends AbstractController
             'idTask' => $id,
         ]);
     }
-//*****************************************************************************************
 
-
-//        Ajouter une Tache
-//*****************************************************************************************
+    /**
+     * Ajouter une tache
+     */
     #[Route('/task/add/{id}', name: 'add_task', requirements: ['id' => '\d+'])]
     public function addTask(int $id, UsersRepository $usersRepository, Request $request, EntityManagerInterface $entityManager)
     {
@@ -154,10 +155,10 @@ class TaskController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-//*****************************************************************************************
 
-//        supprimer une Tache
-//*****************************************************************************************
+    /**
+     * supprimer une tache
+     */
     #[Route('/task/{id}/delete', name: 'delete_task', requirements: ['id' => '\d+'])]
     public function deleteTask(int $id, TaskRepository $taskRepository, TaskOwnerRepository $taskOwnerRepository, EntityManagerInterface $entityManager): Response
     {
