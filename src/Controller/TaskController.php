@@ -61,10 +61,15 @@ class TaskController extends AbstractController
 
             $selectedUsers = $form->get('employes')->getData();
 
-            // Supprimer les anciens utilisateurs non sélectionnés
+            $selectedUserIds = array_column($selectedUsers, 'id');
+
             foreach ($usersTask as $userTask) {
-                if (!in_array($userTask->getId(), array_map(fn($user) => $user->getId(), $selectedUsers))) {
-                    $taskUser = $taskOwnerRepository->findOneBy(['idTask' => $task->getId(), 'idUser' => $userTask->getId()]);
+                if (!in_array($userTask->getId(), $selectedUserIds)) {
+                    $taskUser = $taskOwnerRepository->findOneBy([
+                        'idTask' => $task->getId(),
+                        'idUser' => $userTask->getId()
+                    ]);
+
                     if ($taskUser) {
                         $entityManager->remove($taskUser);
                     }
@@ -72,8 +77,10 @@ class TaskController extends AbstractController
             }
 
             // Ajouter les nouveaux utilisateurs sélectionnés
+            $existingUserIds = array_column($usersTask, 'id');
+
             foreach ($selectedUsers as $user) {
-                if (!in_array($user->getId(), array_map(fn($u) => $u->getId(), $usersTask))) {
+                if (!in_array($user->getId(), $existingUserIds)) {
                     $taskOwner = new TaskOwner();
                     $taskOwner->setIdTask($task->getId());
                     $taskOwner->setIdUser($user->getId());
