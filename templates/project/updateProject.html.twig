@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter un Projet{% endblock %}
+
+{% block body %}
+    <body>
+        <main>
+            <header>
+                <div id="current-user"></div>
+                <div id="title-page">
+                    <h1>Modifier Votre Projet</h1> <!-- Titre de page modifié -->
+                </div>
+            </header>
+            <div id="content">
+                <form name="{{ form.vars.name }}" method="post">
+                    <div>
+                        {{ form_label(form.name, 'Titre du projet', {'attr': {'class': 'required'}}) }}
+                        {{ form_widget(form.name, {'attr': {'maxlength': '255'}}) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.employes, 'Inviter des membres') }}
+                        {{ form_widget(form.employes) }} <!-- Champ select multiple -->
+                    </div>
+                    {{ form_widget(form.continuer, {'attr': {'class': 'button button-submit'}}) }} <!-- Bouton de soumission -->
+                </form>
+            </div>
+        </main>
+    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectEmployes = document.querySelector('select[name="{{ form.employes.vars.full_name }}"]');
+            let disabledIds = JSON.parse(selectEmployes.dataset.disabled);
+
+            for (let option of selectEmployes.options) {
+                if (disabledIds.includes(parseInt(option.value))) {
+                    option.style.color = 'red'; // Change la couleur de texte à gris clair
+                    option.style.backgroundColor = '#f8f9fa'; // Change la couleur de fond si nécessaire
+                }
+            }
+        });
+    </script>
+{% endblock %}
+

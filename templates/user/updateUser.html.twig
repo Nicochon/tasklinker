@@ -8,18 +8,18 @@
             <header>
                 <div id="current-user"></div>
                 <div id="title-page">
-                    <h1>Natalie Dillon</h1>
+                    <h1>{{ user.firstName }} {{ user.lastName }}</h1>
                 </div>
             </header>
             <div id="content">
                 <form name="{{ form.vars.name }}" method="post">
                     <div>
-                        {{ form_label(form.lastName, 'Nom', {'attr': {'class': 'required'}}) }}
-                        {{ form_widget(form.lastName, {'attr': {'maxlength': '255'}}) }}
+                        {{ form_label(form.firstName, 'prenom', {'attr': {'class': 'required'}}) }}
+                        {{ form_widget(form.firstName, {'attr': {'maxlength': '255'}}) }}
                     </div>
                     <div>
-                        {{ form_label(form.firstName, 'Prenom', {'attr': {'class': 'required'}}) }}
-                        {{ form_widget(form.firstName, {'attr': {'maxlength': '255'}}) }}
+                        {{ form_label(form.lastName, 'nom', {'attr': {'class': 'required'}}) }}
+                        {{ form_widget(form.lastName, {'attr': {'maxlength': '255'}}) }}
                     </div>
                     <div>
                         {{ form_label(form.mail, 'Email', {'attr': {'class': 'required'}}) }}

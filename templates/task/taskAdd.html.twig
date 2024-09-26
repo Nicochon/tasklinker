@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}Creer une tache{% endblock %}
+
+{% block body %}
+    <main>
+        <header>
+            <div id="current-user"></div>
+            <div id="title-page">
+                <h1>Créer une tâche</h1>
+            </div>
+        </header>
+        <div id="content">
+            <form name="{{ form.vars.name }}" method="post">
+                <div>
+                    {{ form_label(form.name, 'Titre de la tache', {'attr': {'class': 'required'}}) }}
+                    {{ form_widget(form.name, {'attr': {'maxlength': '255'}}) }}
+                </div>
+                <div>{{ form_label(form.description, 'Description', {'attr': {'class': 'required'}}) }}
+                    {{ form_widget(form.description, {'attr': {'maxlength': '255'}}) }}
+                </div>
+                <div class="flex-form">
+                    <div>{{ form_label(form.date, 'date du début du projet') }}
+                        {{ form_widget(form.date) }} <!-- Champ select multiple -->
+                    </div>
+                    <div>
+                        {{ form_label(form.status, 'status de la tache') }}
+                        {{ form_widget(form.status) }} <!-- Champ select multiple -->
+                    </div>
+                </div>
+                <div>
+                    {{ form_label(form.employes, 'Inviter des membres') }}
+                    {{ form_widget(form.employes) }} <!-- Champ select multiple -->
+                </div>
+                <br>
+                {{ form_widget(form.submit, {'attr': {'class': 'button button-submit'}}) }}
+            </form>
+        </div>
+    </main>
+{% endblock %}

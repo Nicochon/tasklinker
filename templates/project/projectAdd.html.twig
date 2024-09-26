@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter un Projet{% endblock %}
+
+{% block body %}
+<body>
+    <main>
+        <header>
+            <div id="current-user"></div>
+            <div id="title-page">
+                <h1>Nouveau projet</h1> <!-- Titre de page modifié -->
+            </div>
+        </header>
+        <div id="content">
+            <form name="{{ form.vars.name }}" method="post">
+                <div>
+                    {{ form_label(form.name, 'Titre du projet', {'attr': {'class': 'required'}}) }}
+                    {{ form_widget(form.name, {'attr': {'maxlength': '255'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.employes, 'Inviter des membres') }}
+                    {{ form_widget(form.employes) }} <!-- Champ select multiple -->
+                </div>
+                {{ form_widget(form.continuer, {'attr': {'class': 'button button-submit'}}) }} <!-- Bouton de soumission -->
+            </form>
+        </div>
+    </main>
+</body>
+{% endblock %}

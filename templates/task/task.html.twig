@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}updateUser{% endblock %}
+
+{% block body %}
+    <main>
+        <header>
+            <div id="current-user"></div>
+            <div id="title-page">
+                <h1> {{ form.name.vars.value }}</h1>
+            </div>
+        </header>
+        <div id="content">
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_errors(form.name) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.endDate) }}
+                {{ form_widget(form.endDate, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_errors(form.endDate) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.status) }}
+                {{ form_widget(form.status, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_errors(form.status) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.employes) }}
+                {{ form_widget(form.employes, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_errors(form.employes) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form.continuer, { 'attr': {'class': 'button button-submit'} }) }}
+                <a href="{{ path('delete_task', {id: idTask})}}" class="delete-task">Supprimer la tâche</a>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectEmployes = document.querySelector('select[name="{{ form.employes.vars.full_name }}"]');
+            let disabledIds = JSON.parse(selectEmployes.dataset.disabled);
+
+            for (let option of selectEmployes.options) {
+                if (disabledIds.includes(parseInt(option.value))) {
+                    option.style.color = 'red'; // Change la couleur de texte à gris clair
+                    option.style.backgroundColor = '#f8f9fa'; // Change la couleur de fond si nécessaire
+                }
+            }
+        });
+    </script>
+{% endblock %}
