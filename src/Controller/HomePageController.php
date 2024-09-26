@@ -19,11 +19,10 @@ class HomePageController extends AbstractController
     {
 
     }
-//*****************************************************************************************
 
-
-//       Afficher la homepage
-//*****************************************************************************************
+    /**
+     * Afficher la homepage
+     */
     #[Route('/', name: 'app_homepage')]
     public function index(ProjectRepository $projectRepository): Response
     {

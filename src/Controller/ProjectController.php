@@ -133,10 +133,14 @@ class ProjectController extends AbstractController
 
             $selectedUsers = $form->get('employes')->getData();
 
-            // Supprimer les anciens utilisateurs non sélectionnés
+            $selectedUserIds = array_column($selectedUsers, 'id');
+
             foreach ($usersProjectId as $userProject) {
-                if (!in_array($userProject['idUser'], array_map(fn($user) => $user->getId(), $selectedUsers))) {
-                    $projectUser = $projectUserRepository->findOneBy(['idProject' => $project->getId(), 'idUser' => $userProject['idUser']]);
+                if (!in_array($userProject['idUser'], $selectedUserIds)) {
+                    $projectUser = $projectUserRepository->findOneBy([
+                        'idProject' => $project->getId(),
+                        'idUser' => $userProject['idUser']
+                    ]);
                     if ($projectUser) {
                         $entityManager->remove($projectUser);
                     }

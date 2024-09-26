@@ -101,7 +101,7 @@ class TaskController extends AbstractController
 //        Ajouter une Tache
 //*****************************************************************************************
     #[Route('/task/add/{id}', name: 'add_task', requirements: ['id' => '\d+'])]
-    public function addTask(int $id, UsersRepository $usersRepository, Request $request, EntityManagerInterface $entityManager, ProjectUserRepository $projectUserRepository, ProjectRepository $projectRepository, TaskOwnerRepository $taskOwnerRepository, TaskRepository $taskRepository)
+    public function addTask(int $id, UsersRepository $usersRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $users = $usersRepository->findAll();
 
@@ -152,7 +152,7 @@ class TaskController extends AbstractController
 //        supprimer une Tache
 //*****************************************************************************************
     #[Route('/task/{id}/delete', name: 'delete_task', requirements: ['id' => '\d+'])]
-    public function deleteTask(int $id, TaskRepository $taskRepository, TaskOwnerRepository $taskOwnerRepository, UsersRepository $usersRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function deleteTask(int $id, TaskRepository $taskRepository, TaskOwnerRepository $taskOwnerRepository, EntityManagerInterface $entityManager): Response
     {
         $idProject = $taskOwnerRepository->findProjectIdByTaskId($id);
 
