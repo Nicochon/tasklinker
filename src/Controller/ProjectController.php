@@ -45,12 +45,18 @@ class ProjectController extends AbstractController
         $tasks = $this->projectService->getTasksByProjectId($id);
         $taskInitials = $this->projectService->getUsersByTask($tasks);
 
+        $groupedTasks = [];
+        foreach ($tasks as $task) {
+            $groupedTasks[$task->getStatus()][] = $task;
+        }
+
         return $this->render('project/project.html.twig', [
             'controller_name' => 'HomePageController',
             'project' => $project,
             'initials' => $initials,
             'tasks' => $tasks,
             'taskInitials' => $taskInitials,
+            'groupedTasks' => $groupedTasks,
         ]);
     }
 
