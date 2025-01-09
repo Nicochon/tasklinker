@@ -4,10 +4,14 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,7 +24,9 @@ class Users
     #[ORM\Column(length: 64)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $mail = null;
 
     #[ORM\Column(length: 64)]
@@ -29,12 +35,18 @@ class Users
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $startDateContract = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
+    #[ORM\Column(type: 'json')]
+    private ?array $roles =  [];
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(string $id): static
+    public function setId(int $id): static
     {
         $this->id = $id;
 
@@ -107,5 +119,41 @@ class Users
         $lastNameInitial = $this->lastName ? strtoupper($this->lastName[0]) : '';
 
         return $firstNameInitial . $lastNameInitial;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        return array_unique($roles);
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->mail;
     }
 }

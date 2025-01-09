@@ -16,18 +16,25 @@
     <body>
         <div id="main-container">
             <nav>
-                <a href="index.html" id="logo">
+                <a href="{{ path('app_home') }}" id="logo">
                     <img src="{{ asset('assets/img/logo.png')}}" alt="Logo TaskLinker" />
                 </a>
                 <ul id="main-menu">
                     <li class="active">
-                        <a href="{{ path('app_homepage') }}">
+                        <a href="{{ path('app_home') }}">
                             <i class="fa-solid fa-list-check"></i> Projets
                         </a>
                     </li>
+                    {% if is_granted('ROLE_ADMIN')%}
                     <li>
                         <a href="{{ path('show_users') }}">
                             <i class="fa-regular fa-user"></i> Équipe
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a href="{{ path('logout') }}" class="logout-btn">
+                            <i class="fa-solid fa-sign-out-alt"></i> Déconnexion
                         </a>
                     </li>
                 </ul>

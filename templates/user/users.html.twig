@@ -15,6 +15,7 @@
                     <tr>
                         <th>Prénom, Nom</th>
                         <th>Statut</th>
+                        <th>Rôle</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -33,6 +34,11 @@
                                 </div>
                             </td>
                             <td>{{user.contract}}</td>
+                            <td>
+                                {% for role in user.roles %}
+                                    {{role}}
+                                {% endfor %}
+                            </td>
                             <td>
                                 <a class="button button-edit-team" href="{{ path('update_user', {id: user.id}) }}">
                                     Éditer

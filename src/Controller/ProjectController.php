@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Project;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProjectController extends AbstractController
 {
@@ -63,6 +64,7 @@ class ProjectController extends AbstractController
     /**
      * Ajouter un Project
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/project/add', name: 'add_project')]
     public function addProject(UsersRepository $usersRepository, Request $request, EntityManagerInterface $entityManager)
     {
@@ -96,7 +98,7 @@ class ProjectController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'User updated successfully');
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('project/projectAdd.html.twig', [
@@ -107,6 +109,7 @@ class ProjectController extends AbstractController
     /**
      * Mise à jour d'un Project
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/project/update/{id}', name: 'update_project', requirements: ['id' => '\d+'])]
     public function updateProject(int $id, UsersRepository $usersRepository, ProjectUserRepository $projectUserRepository, ProjectRepository $projectRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -167,7 +170,7 @@ class ProjectController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'User updated successfully');
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('project/updateProject.html.twig', [
@@ -178,6 +181,7 @@ class ProjectController extends AbstractController
     /**
      * supprimer un Project
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/project/{id}/delete', name: 'delete_project', requirements: ['id' => '\d+'])]
     public function deleteProject(int $id, ProjectUserRepository $projectUserRepository, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, TaskRepository $taskRepository, TaskOwnerRepository $taskOwnerRepository): Response
     {
@@ -206,6 +210,6 @@ class ProjectController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_homepage');
+        return $this->redirectToRoute('app_home');
     }
 }

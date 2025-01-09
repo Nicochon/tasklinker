@@ -1,0 +1,36 @@
+{% extends 'auth/base-logout.html.twig' %}
+
+{% block body %}
+
+            <h1>S'inscrire</h1> <!-- Titre de page -->
+
+            {{ form_start(form) }}
+                {{ form_label(form.lastName, 'Nom', {'attr': {'class': 'required'}}) }}
+                {{ form_widget(form.lastName, {'attr': {'maxlength': '255'}}) }}
+                {{ form_label(form.firstName, 'Prénom', {'attr': {'class': 'required'}}) }}
+                {{ form_widget(form.firstName, {'attr': {'maxlength': '255'}}) }}
+
+
+                {{ form_label(form.mail, 'E-mail', {'attr': {'class': 'required'}}) }}
+                {% if not form.vars.valid %}
+                    <div class="form-errors">
+                        <div>{{ form_errors(form.mail) }}</div>
+                    </div>
+                {% endif %}
+                {{ form_widget(form.mail, {'attr': {'maxlength': '255'}}) }}
+                <div class="form-flex">
+                    {{ form_label(form.password.first, 'Mot de passe', {'attr': {'class': 'required'}}) }}
+                    {{ form_widget(form.password.first, {'attr': {'maxlength': '255'}}) }}
+                    {{ form_label(form.password.second, 'Confirmer le mot de passe', {'attr': {'class': 'required'}}) }}
+                    {% if not form.vars.valid %}
+                        <div class="form-errors">
+                            <div>{{ form_errors(form.password.first) }}</div>
+                        </div>
+                    {% endif %}
+                    {{ form_widget(form.password.second, {'attr': {'maxlength': '255'}}) }}
+                </div>
+                    {{ form_widget(form.continuer, {'attr': {'class': 'button button-submit'}}) }}
+                    <a href="{{path('app_loginPage')}}" class="link-logout">Vous avez déjà un compte ?</a>
+                {{ form_rest(form) }}
+            {{ form_end(form) }}
+{% endblock %}

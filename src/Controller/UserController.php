@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-namespace App\Controller;
-
 use App\Repository\UsersRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Form\UpdateUserType;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
@@ -27,6 +26,7 @@ class UserController extends AbstractController
     /**
      * Afficher les utilisateurs
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users', name: 'show_users')]
     public function showUsers(UsersRepository $UsersRepository): Response
     {
@@ -41,6 +41,7 @@ class UserController extends AbstractController
     /**
      * Mettre à jour les utilisateurs
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users/update/{id}', name: 'update_user', requirements: ['id' => '\d+'])]
     public function updateUsers(int $id, UsersRepository $UsersRepository, Request $request): Response
     {
@@ -72,6 +73,7 @@ class UserController extends AbstractController
     /**
      * Supprimer un utilisateur
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users/{id}/delete', name: 'delete_user', requirements: ['id' => '\d+'])]
     public function delete(int $id, UsersRepository $UsersRepository): Response
     {

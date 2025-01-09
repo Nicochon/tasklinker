@@ -13,7 +13,9 @@
                         <div class="avatar">{{initial}}</div>
                     {% endfor %}
                 </div>
+                {% if is_granted('ROLE_ADMIN')%}
                 <a class="button" href="{{ path('update_project', {id: project.id})}}">Modifier</a>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -45,9 +47,11 @@
                                 </div>
                             </a>
                         {% endfor %}
+                        {% if is_granted('ROLE_ADMIN')%}
                         <a href="{{ path('add_task', {id: project.id}) }}" class="task-add">
                             + Ajouter une tâche
                         </a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
