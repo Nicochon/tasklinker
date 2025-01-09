@@ -1,0 +1,8 @@
+{% extends 'security/base-security.html.twig' %}
+{% block body %}
+    <body>
+        <h1>Accès refusé</h1>
+        <p>{{ message }}</p>
+        <a href="{{ path('app_home') }}"  class="link-logout">Retour à l'accueil</a>
+    </body>
+{% endblock %}
